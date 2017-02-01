@@ -1,0 +1,23 @@
+{
+  "name": "fs-process",
+  "version": "1.0.0",
+  "description": "fs-process is Node fs extensions library for processing files using promises",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JorisCoppieters/fs-process.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JorisCoppieters/fs-process/issues"
+  },
+  "homepage": "https://github.com/JorisCoppieters/fs-process#readme",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "color-print": "^1.0.1"
+  }
+}
