@@ -3,9 +3,12 @@
 // ******************************
 //
 //
-// FS PROCESS LIBRARY v1.0.0
+// FS PROCESS LIBRARY v1.1
 //
 // Version History:
+//
+// 1.0.1
+// - Added removeFile
 //
 // 1.0.0
 // - Stable release
@@ -26,8 +29,12 @@ var Promise = require('bluebird');
 // ******************************
 
 module.exports = {
-    read: readFile,
-    write: writeFile,
+    read: readFileWithCb,
+    write: writeFileWithCb,
+    remove: removeFileWithCb,
+    readWithPromise: readFileWithPromise, // TODO: Make these the default
+    writeWithPromise: writeFileWithPromise, // TODO: Make these the default
+    removeWithPromise: removeFileWithPromise, // TODO: Make these the default
     process: processFiles,
     list: listFiles,
 };
@@ -36,7 +43,7 @@ module.exports = {
 // Functions:
 // ******************************
 
-function readFile (filePath, cbSuccess, cbError) {
+function readFileWithCb (filePath, cbSuccess, cbError) {
     var file = path.resolve(process.cwd(), filePath);
     fs.readFile(file, 'utf8', function (error, data) {
         if (error) {
@@ -55,7 +62,15 @@ function readFile (filePath, cbSuccess, cbError) {
 
 // ******************************
 
-function writeFile (filePath, fileContents, cbSuccess, cbError) {
+function readFileWithPromise (filePath) {
+    return new Promise(function (resolve, reject) {
+        readFileWithCb(filePath, function () { resolve(); }, function () { reject(); });
+    });
+}
+
+// ******************************
+
+function writeFileWithCb (filePath, fileContents, cbSuccess, cbError) {
     var file = path.resolve(process.cwd(), filePath);
     fs.writeFile(file, fileContents, 'utf8', function (error, data) {
         if (error) {
@@ -69,6 +84,41 @@ function writeFile (filePath, fileContents, cbSuccess, cbError) {
                 cbSuccess(data);
             }
         }
+    });
+}
+
+// ******************************
+
+function writeFileWithPromise (filePath, fileContents) {
+    return new Promise(function (resolve, reject) {
+        writeFileWithCb(filePath, fileContents, function () { resolve(); }, function () { reject(); });
+    });
+}
+
+// ******************************
+
+function removeFileWithCb (filePath, cbSuccess, cbError) {
+    var file = path.resolve(process.cwd(), filePath);
+    fs.unlink(file, function (error, data) {
+        if (error) {
+            cprint.red('Could not remove file: ' + file);
+            cprint.red('  ' + error);
+            if (cbError) {
+                cbError(error);
+            }
+        } else {
+            if (cbSuccess) {
+                cbSuccess(data);
+            }
+        }
+    });
+}
+
+// ******************************
+
+function removeFileWithPromise (filePath) {
+    return new Promise(function (resolve, reject) {
+        removeFileWithCb(filePath, function () { resolve(); }, function () { reject(); });
     });
 }
 

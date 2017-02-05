@@ -1,6 +1,6 @@
 {
   "name": "fs-process",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "fs-process is Node fs extensions library for processing files using promises",
   "main": "index.js",
   "scripts": {
