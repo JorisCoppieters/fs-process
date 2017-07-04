@@ -9,4 +9,4 @@ fs-process requires [Node.js](https://nodejs.org/) v4+ to run.
 Then:
 
 ```sh
-$ npm install --global fs-process
+$ npm install fs-process
